@@ -13,3 +13,7 @@ pip-selfcheck.json
 
 # Ignore man pages
 share/man/
+
+#IDE
+/.idea
+=0.0.3
