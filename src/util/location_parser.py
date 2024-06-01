@@ -1,15 +1,25 @@
 import pandas as pd
+# from constants.states import us_state_to_abbrev
+from src.constants.states import us_state_to_abbrev
 
 # cache file IO
 df_cache = None
 
 def county_to_coord(state: str, county: str) -> tuple[int, int]:
+    
+    abrv = us_state_to_abbrev[state]
+    
     global df_cache
     if df_cache is None:
         df_cache = load_counties()
         
     
-    result = df_cache[(df_cache['State'] == state) & (df_cache['County [2]'] == county)]
+    # result = df_cache[(df_cache['State'] == abrv) & (df_cache['County [2]'] == county)]
+    result = df_cache[
+        df_cache['State'].str.replace(r'\s+', '', regex=True).str.contains(abrv.replace(' ', ''), case=False) &
+        df_cache['County [2]'].str.replace(r'\s+', '', regex=True).str.contains(county.replace(' ', ''), case=False)
+        ]
+    
     
     if result.empty:
         return None, None

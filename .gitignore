@@ -24,3 +24,6 @@ shapes/
 #IDE
 /.idea
 =0.0.3
+
+
+__pycache__
