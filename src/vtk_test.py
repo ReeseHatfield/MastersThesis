@@ -1,23 +1,41 @@
-import vtk
-from util.location_parser import county_to_coord
+import vtkmodules.all as vtk
 
-from vtk import vtkGeoJSONReader
-# missing https://vtk.org/doc/nightly/html/classvtkReebGraph.html
-
-a = vtk.vtkAppendFilter()
-
-print(vtk.__version__) # -> 9.3.0
-
-
-# https://examples.vtk.org/site/PythonicAPIComments/ -> 
-
-# https://vtk.org/download/ -> 9.3.2
-
-
-#9.1.0
+def geojson_to_polydata(filename):
+    reader = vtk.vtkGeoJSONReader()
+    reader.SetFileName(filename)
+    reader.Update()
+    return reader.GetOutput()
 
 def main():
-    print(county_to_coord("Ohio","Ross"))
+    filename = 'data/geo/USA_Counties_465634642118668778.geojson'
 
-if __name__ == "__main__":
+    polydata = geojson_to_polydata(filename)
+
+    
+    mapper = vtk.vtkPolyDataMapper()
+    mapper.SetInputData(polydata)
+
+    
+    actor = vtk.vtkActor()
+    actor.SetMapper(mapper)
+
+    
+    renderer = vtk.vtkRenderer()
+    window = vtk.vtkRenderWindow()
+    
+    
+    window.AddRenderer(renderer)
+    window.SetWindowName('GEOJSON stuff')
+
+    render_window_interactor = vtk.vtkRenderWindowInteractor()
+    render_window_interactor.SetRenderWindow(window)
+    
+    renderer.AddActor(actor)
+    renderer.SetBackground(0.0, 0.0, 0.0) 
+
+    window.Render()
+    render_window_interactor.Initialize()
+    render_window_interactor.Start()
+    
+if __name__ == '__main__':
     main()
