@@ -12,5 +12,10 @@
     - T-test
     - ANOVA test on different TDA algorithms?
     - F-test -> compare popululation variance instead of mean like a t-test would
-    
-4. Convulutions?
+
+4. Meta TDA:
+    - Persistence Diagram
+    - Rips Complex
+
+5. Misc:
+    - Convulutions?
